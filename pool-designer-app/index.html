@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="icon" type="image/png" href="../../assets/images/logo.png">
+  <title>Poolly</title>
+  <link rel="preconnect" href="https://esm.sh" crossorigin />
+  <link rel="dns-prefetch" href="https://esm.sh" />
+  <link rel="preload" href="assets/environment/kloofendal_48d_partly_cloudy_puresky_sky.webp" as="image" type="image/webp" crossorigin="anonymous" fetchpriority="high" />
+  <link rel="preload" href="assets/environment/kloofendal_48d_partly_cloudy_puresky_fast.hdr" as="fetch" type="application/octet-stream" crossorigin fetchpriority="high" />
+  <link rel="preload" href="textures/Coping/StoneEmbeddedTiles_DIFF_2K.webp" as="image" type="image/webp" fetchpriority="high" />
+  <script>if(new URLSearchParams(location.search).get("externalControls")==="1")document.documentElement.classList.add("external-controls");</script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+
+
+  <div id="projectRecoveryModal" class="project-recovery" hidden>
+    <div class="project-recovery-card" role="dialog" aria-modal="true" aria-labelledby="projectRecoveryTitle">
+      <p class="starter-kicker">Welcome back</p>
+      <h2 id="projectRecoveryTitle">Load an existing project</h2>
+      <button id="loadExistingProject" class="recovery-project" type="button">
+        <div id="recoveryPreview" class="starter-preview" data-preview="rectangle" aria-hidden="true"></div>
+        <div><strong>Last pool design</strong><span id="recoveryModified">Last modified</span></div>
+      </button>
+      <button id="createNewProject" class="recovery-new" type="button">Create a new project</button>
+    </div>
+  </div>
+
+  <!-- Startup preset chooser -->
+  <div id="starterPresetOverlay" class="starter-overlay" aria-modal="true" role="dialog">
+    <div class="starter-panel">
+      <div class="starter-header">
+        <p class="starter-kicker">Poolly</p>
+        <h1>Choose a starter pool</h1>
+        <p>Select one of the 9 pre-built pool options, then continue editing in the 3D designer.</p>
+      </div>
+      <div id="starterPresetGrid" class="starter-grid"></div>
+    </div>
+  </div>
+
+  <main class="app-shell container">
+
+    <!-- Hidden backing controls used by the outer Design Controls bridge.
+         The legacy in-viewport sidebar/panel UI has been removed. -->
+    <div id="designer-control-backing" hidden aria-hidden="true">
+
+      <!-- DIMENSIONS PANEL -->
+      <div class="designer-control-group" id="panel-dimensions">
+        <h2>Pool Dimensions</h2>
+
+        <label>
+          <span>Shallow Depth (m)</span>
+          <div class="slider-row">
+            <input type="range" id="shallow" min="0.5" max="2.0" step="0.05" value="1.2" />
+            <span id="shallow-val" class="slider-value">1.2 m</span>
+          </div>
+
+        </label>
+
+        <label>
+          <span>Deep Depth (m)</span>
+          <div class="slider-row">
+            <input type="range" id="deep" min="1.0" max="4.0" step="0.05" value="2.5" />
+            <span id="deep-val" class="slider-value">2.5 m</span>
+          </div>
+        </label>
+
+        <label>
+          <span>Shallow Flat (m)</span>
+          <div class="slider-row">
+            <input type="range" id="shallowFlat" min="0" max="6" step="0.1" value="2" />
+            <span id="shallowFlat-val" class="slider-value">2.0 m</span>
+          </div>
+        </label>
+
+        <label>
+          <span>Deep Flat (m)</span>
+          <div class="slider-row">
+            <input type="range" id="deepFlat" min="0" max="6" step="0.1" value="2" />
+            <span id="deepFlat-val" class="slider-value">2.0 m</span>
+          </div>
+        </label>
+      </div>
+
+      <!-- SHAPE PANEL -->
+      <div class="designer-control-group" id="panel-shape">
+        <h2>Pool Shape</h2>
+
+        <label>
+          <span>Shape</span>
+          <select id="shape">
+            <option value="rectangular">Rectangular</option>
+            <option value="freeform">Freeform (editable)</option>
+            <option value="oval">Oval</option>
+            <option value="kidney">Kidney</option>
+            <option value="L">L-Shape</option>
+            <option value="lap">Lap Pool</option>
+            <option value="plunge">Plunge Pool</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Length (m)</span>
+          <div class="slider-row">
+            <input type="range" id="length" min="4" max="20" step="0.1" value="10" />
+            <span id="length-val" class="slider-value">10 m</span>
+          </div>
+        </label>
+
+        <label>
+          <span>Width (m)</span>
+          <div class="slider-row">
+            <input type="range" id="width" min="2" max="10" step="0.1" value="5" />
+            <span id="width-val" class="slider-value">5 m</span>
+          </div>
+        </label>
+
+        <p id="freeform-hint" class="hint" style="display:none;">
+          Curved walls are added from the Features panel and adjusted directly in the 3D model.
+        </p>
+
+        <div class="btn-row pool-elevation-row">
+          <button id="raisedPoolToggle" class="btn" type="button" aria-pressed="false">Raise Pool 0.7 m</button>
+        </div>
+        <p class="hint">Raises the pool, coping, water, steps, benches and spa. Ground and paving remain fixed.</p>
+        <p id="customizeShapeHint" class="hint" style="display:none;">Select two adjacent walls to add a curved corner.</p>
+
+        <!-- KIDNEY CONTROLS -->
+        <div id="kidney-controls" class="shape-subsection" style="display:none;">
+          <h3>Kidney Settings</h3>
+
+          <label>
+            <span>Left Radius (m)</span>
+            <div class="slider-row">
+              <input type="range" id="kidneyLeftRadius" min="0.2" max="10.0" step="0.1" value="2.0" />
+              <span id="kidneyLeftRadius-val" class="slider-value">2.0 m</span>
+            </div>
+          </label>
+
+          <label>
+            <span>Right Radius (m)</span>
+            <div class="slider-row">
+              <input type="range" id="kidneyRightRadius" min="0.2" max="12.0" step="0.1" value="3.0" />
+              <span id="kidneyRightRadius-val" class="slider-value">3.0 m</span>
+            </div>
+          </label>
+
+          <label>
+            <span>Neck Offset (m)</span>
+            <div class="slider-row">
+              <input type="range" id="kidneyOffset" min="0.0" max="8.0" step="0.1" value="1.0" />
+              <span id="kidneyOffset-val" class="slider-value">1.0 m</span>
+            </div>
+          </label>
+        </div>
+
+        <!-- L-SHAPE CONTROLS -->
+        <div id="lshape-controls" class="shape-subsection" style="display:none;">
+          <h3>L-Shape Settings</h3>
+
+          <label>
+            <span>Notch Length (× length)</span>
+            <div class="slider-row">
+              <input type="range" id="notchLengthX" min="0.20" max="0.80" step="0.01" value="0.40" />
+              <span id="notchLengthX-val" class="slider-value">0.40</span>
+            </div>
+          </label>
+
+          <label>
+            <span>Notch Width (× width)</span>
+            <div class="slider-row">
+              <input type="range" id="notchWidthY" min="0.20" max="0.80" step="0.01" value="0.45" />
+              <span id="notchWidthY-val" class="slider-value">0.45</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- TILES PANEL -->
+      <div class="designer-control-group" id="panel-tiles">
+        <h2>Tiles</h2>
+
+        <div id="tile-grid" aria-label="Pool tile colour library">
+          <!-- Tile colour buttons are generated from TILE_LIBRARY_OPTIONS in frontend/js/pbr/PBR.js. -->
+        </div>
+      </div>
+
+      <!-- SPA PANEL -->
+      <div class="designer-control-group" id="panel-spa">
+        <h2>Spas</h2>
+
+        <label>
+          <span>Spa Shape</span>
+          <select id="spaShape">
+            <option value="square">Square</option>
+            <option value="circular">Circular</option>
+          </select>
+        </label>
+
+        <button id="addRemoveSpa" class="btn primary">Add Spa</button>
+
+        <label>
+          <span>Width (m)</span>
+          <div class="slider-row">
+            <input type="range" id="spaWidth" min="1" max="5" step="0.1" value="2.0" disabled />
+            <span id="spaWidth-val" class="slider-value">2.0 m</span>
+          </div>
+        </label>
+
+        <label>
+          <span>Length (m)</span>
+          <div class="slider-row">
+            <input type="range" id="spaLength" min="1" max="5" step="0.1" value="2.0" disabled />
+            <span id="spaLength-val" class="slider-value">2.0 m</span>
+          </div>
+        </label>
+
+        <label>
+          <span>Top Offset (m)</span>
+          <div class="slider-row">
+            <input type="range" id="spaTopHeight" min="0" max="0.5" step="0.05" value="0" disabled />
+            <span id="spaTopHeight-val" class="slider-value">0.00 m</span>
+          </div>
+        </label>
+      </div>
+
+      <!-- ⭐ NEW: FEATURES PANEL (wall tools) -->
+      <div class="designer-control-group" id="panel-features">
+        <h2>Features</h2>
+        <div class="model-feature-grid" id="modelFeatureGrid" aria-label="Pool features">
+          <button type="button" class="model-feature-btn" data-model-feature="bar-stools">Bar stools</button>
+          <button type="button" class="model-feature-btn" data-model-feature="laminar-jets">Laminar jets</button>
+          <button type="button" class="model-feature-btn" data-model-feature="bubblers">Bubblers</button>
+          <button type="button" class="model-feature-btn" data-model-feature="infinity-edge">Infinity edge</button>
+          <button type="button" class="model-feature-btn" data-model-feature="spout-water-features">Spouts</button>
+          <button type="button" class="model-feature-btn" data-model-feature="blade-water-features">Blade water</button>
+          <button type="button" class="model-feature-btn" data-model-feature="acrylic-window">Acrylic window</button>
+          <button type="button" class="model-feature-btn" data-model-feature="curved-wall">Curved wall</button>
+        </div>
+        <p class="model-feature-note" id="modelFeatureNote">Select a feature to add it to the pool.</p>
+        <p class="hint">Click a pool wall to adjust its height.</p>
+
+        <label id="wallRaiseRow" style="display:none;">
+          <span>Raise Wall Height (m)</span>
+          <div class="slider-row">
+            <!-- extra height ABOVE base wall height -->
+            <input
+              type="range"
+              id="wallRaise"
+              min="0"
+              max="1.2"
+              step="0.05"
+              value="0"
+              disabled
+            />
+            <span id="wallRaise-val" class="slider-value">0.00 m</span>
+          </div>
+        </label>
+      </div>
+
+      <!-- ENTRY STEPS PANEL -->
+      <div class="designer-control-group" id="panel-steps">
+        <h2>Entry Steps</h2>
+
+        <label>
+          <span>Step Count</span>
+          <div class="slider-row">
+            <input type="range" id="stepCount" min="0" max="5" step="1" value="3" />
+            <span id="stepCount-val" class="slider-value">3</span>
+          </div>
+        </label>
+
+        <label>
+          <span>Step Depth (m)</span>
+          <div class="slider-row">
+            <input type="range" id="stepDepth" min="0.25" max="0.5" step="0.05" value="0.25" />
+            <span id="stepDepth-val" class="slider-value">0.25 m</span>
+          </div>
+        </label>
+
+        <label>
+          <span>Step Width (m)</span>
+          <div class="slider-row">
+            <input type="range" id="stepWidth" min="0.5" max="8" step="0.05" value="5" />
+            <span id="stepWidth-val" class="slider-value">5.00 m</span>
+          </div>
+        </label>
+
+
+
+        <div class="step-control-group">
+          <span class="step-control-title">Entry Wall</span>
+          <div class="step-toggle-row" id="stepWallControls">
+            <button type="button" class="step-toggle-btn active" data-step-wall="west">West / Left</button>
+            <button type="button" class="step-toggle-btn" data-step-wall="east">East / Right</button>
+            <button type="button" class="step-toggle-btn" data-step-wall="north">North / Top</button>
+            <button type="button" class="step-toggle-btn" data-step-wall="south">South / Bottom</button>
+          </div>
+        </div>
+
+        <div class="step-control-group">
+          <span class="step-control-title">Step Position</span>
+          <div class="step-toggle-row" id="stepPositionControls">
+            <button type="button" class="step-toggle-btn" data-step-position="left">Left</button>
+            <button type="button" class="step-toggle-btn active" data-step-position="center">Centre</button>
+            <button type="button" class="step-toggle-btn" data-step-position="right">Right</button>
+          </div>
+        </div>
+
+        <div class="step-control-group">
+          <span class="step-control-title">Step Shape</span>
+          <div class="step-toggle-row" id="stepShapeControls">
+            <button type="button" class="step-toggle-btn active" data-step-shape="rectangle">Rectangle</button>
+            <button type="button" class="step-toggle-btn" data-step-shape="diagonal">Diagonal Corner</button>
+            <button type="button" class="step-toggle-btn" data-step-shape="circular">Circular Corner</button>
+            <button type="button" class="step-toggle-btn" data-step-shape="radius">Radius Corner</button>
+          </div>
+        </div>
+
+        <div class="step-control-group" id="stepBenchModeControls">
+          <span class="step-control-title">Step Layout</span>
+          <div class="step-toggle-row">
+            <button type="button" class="step-toggle-btn" data-step-bench-mode="stepsOnly">Steps Only</button>
+            <button type="button" class="step-toggle-btn active" data-step-bench-mode="bench">Bench Seat</button>
+          </div>
+        </div>
+
+        <!-- Step Extension Slider -->
+        <label id="stepExtensionRow" style="display:none;">
+          <span>Step Extension (m)</span>
+          <div class="slider-row">
+            <input type="range" id="stepExtension" min="0.3" max="1.5" step="0.05" value="0.3" />
+            <span id="stepExtension-val" class="slider-value">1.0 m</span>
+          </div>
+        </label>
+
+      </div>
+
+    </div>
+
+    <div class="app-top-actions">
+      <button id="undoBtn" type="button" class="top-action-btn" title="Undo last change">Undo</button>
+      <button id="screenshotBtn" type="button" class="top-action-btn" title="Save screenshot">Screenshot</button>
+    </div>
+
+    <!-- 3D Scene -->
+    <section class="canvas-wrap">
+      <div id="three-root"></div>
+    </section>
+
+  </main>
+
+  <script type="module" src="js/main.js?v=20260907-spa-elevation-void-water-v3"></script>
+
+</body>
+</html>
