@@ -1,0 +1,21 @@
+{
+  "name": "poolly",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "check:infinity-seams": "node scripts/validate-infinity-water-seams.mjs",
+    "check:auth-branding": "node scripts/validate-auth-branding.mjs",
+    "check:frontend": "node --check assets/js/designer-page.js && node --check assets/js/supabase-client.js && node --check assets/js/project-model.js && node --check assets/js/enquiry-flow.js && node --check assets/js/project-portal.js && node --check assets/js/builder-dashboard.js && node --check pool-designer-app/frontend/js/designer-bridge.js && node --check pool-designer-app/frontend/js/main.js",
+    "check": "npm run typecheck && npm run check:infinity-seams && npm run check:auth-branding && npm run check:frontend && npm run check:builders && npm run check:structure",
+    "build": "tsc && node scripts/build-cloudflare.mjs",
+    "deploy": "wrangler deploy",
+    "serve": "npx serve .",
+    "check:structure": "node scripts/validate-project-structure.mjs",
+    "check:builders": "node scripts/validate-builder-directory.mjs"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "wrangler": "^4.127.1"
+  }
+}

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/png" href="../assets/images/logo.png">
+  <title>Project Portal | Poolly</title>
+  <meta name="description" content="Securely review your pool design, builder responses and quotations.">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/enquiry-portal.css?v=20260831-1">
+</head>
+<body class="portal-page">
+<header class="site-header portal-header"><div class="shell nav-wrap"><a class="brand" href="../index.html"><img class="brand-logo" src="../assets/images/logo.png" alt="" width="32" height="32">Poolly</a><nav class="main-nav"><a href="../pool-designer/index.html">Designer</a><a href="../guides/index.html">Guides</a><a href="../professionals/index.html">For Professionals</a></nav><button class="btn btn-light" id="portalSignOut" type="button" hidden>Sign out</button></div></header>
+
+<main class="portal-main">
+  <section class="portal-auth" id="portalAuth">
+    <div class="eyebrow">Secure project portal</div>
+    <h1>Open your project</h1>
+    <p class="portal-muted">Sign in with the verified email used for your enquiry. The secure project link and your email are both required.</p>
+    <form class="portal-form" id="portalAuthForm">
+      <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <label id="portalCodeField" hidden>Six-digit code<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6"></label>
+      <div class="portal-auth-actions"><button class="btn btn-dark" id="portalSendCode" type="button">Send code</button><button class="btn btn-dark" id="portalVerifyCode" type="submit" hidden>Verify and open</button></div>
+    </form>
+    <div class="portal-notice portal-hidden" id="portalAuthNotice" role="status"></div>
+  </section>
+
+  <section id="portalContent" hidden>
+    <div class="portal-notice portal-hidden" id="portalNotice" role="status"></div>
+    <header class="portal-hero"><div><div class="eyebrow">Project <span id="projectNumber"></span></div><h1 id="projectTitle">Your pool project</h1><p id="projectAddress"></p></div><span class="portal-status" id="projectStatus"></span></header>
+    <div class="portal-grid">
+      <section class="portal-card"><h2>Current design</h2><img class="portal-preview" id="projectPreview" alt="Current 3D pool design"><p class="portal-muted" id="designVersion"></p><div class="portal-actions"><a class="btn btn-dark" id="editProjectDesign" href="../pool-designer/index.html">Edit design</a></div></section>
+      <section class="portal-card"><h2>Specification</h2><dl class="portal-spec" id="projectSpecification"></dl></section>
+      <section class="portal-card"><h2>Site access images</h2><div class="portal-file-grid" id="projectAccessImages"></div></section>
+      <section class="portal-card is-wide"><h2>Builder responses</h2><div class="portal-table-wrap"><table class="portal-table"><thead><tr><th>Builder</th><th>Invitation</th><th>Latest quotation</th><th>Total</th><th>Action</th></tr></thead><tbody id="builderResponseRows"></tbody></table></div></section>
+      <section class="portal-card is-wide"><h2>Quotation comparison</h2><div id="quoteComparison"></div></section>
+      <section class="portal-card"><h2>Messages</h2><label class="portal-form">Builder<select id="messageBuilder"></select></label><div class="portal-message-list" id="clientMessages"></div><form class="portal-message-form" id="clientMessageForm"><input name="message" maxlength="4000" placeholder="Write a message…" required><label class="attachment-button">Attach<input name="attachment" type="file" accept="image/jpeg,image/png,image/webp,application/pdf,text/plain" hidden></label><button class="btn btn-dark" type="submit">Send</button></form></section>
+      <section class="portal-card"><h2>Activity</h2><ol class="portal-list" id="projectActivity"></ol></section>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="../assets/js/project-portal.js?v=20260831-1"></script>
+</body>
+</html>
