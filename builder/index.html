@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/png" href="../assets/images/logo.png">
+  <title>Builder Dashboard | Poolly</title>
+  <meta name="description" content="Review pool project invitations, message clients and submit design-linked quotations.">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <link rel="stylesheet" href="../assets/css/enquiry-portal.css?v=20260831-1">
+</head>
+<body class="portal-page">
+<header class="site-header portal-header"><div class="shell nav-wrap"><a class="brand" href="../index.html"><img class="brand-logo" src="../assets/images/logo.png" alt="" width="32" height="32">Poolly</a><nav class="main-nav"><a href="../pool-designer/index.html">Designer</a><a href="../professionals/index.html">For Professionals</a></nav><button class="btn btn-light" id="builderSignOut" type="button" hidden>Sign out</button></div></header>
+<main class="portal-main">
+  <section class="portal-auth" id="builderAuth">
+    <div class="eyebrow">Builder access</div><h1>Builder dashboard</h1><p class="portal-muted">Use the email attached to your approved builder account.</p>
+    <form class="portal-form" id="builderAuthForm"><label>Email<input name="email" type="email" autocomplete="email" required></label><label id="builderCodeField" hidden>Six-digit code<input name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6"></label><div class="portal-auth-actions"><button class="btn btn-dark" id="builderSendCode" type="button">Send code</button><button class="btn btn-dark" id="builderVerifyCode" type="submit" hidden>Verify and open</button></div></form>
+    <div class="portal-notice portal-hidden" id="builderAuthNotice" role="status"></div>
+  </section>
+
+  <section id="builderDashboard" hidden>
+    <div class="portal-notice portal-hidden" id="builderNotice" role="status"></div>
+    <header class="portal-hero"><div><div class="eyebrow">Builder workspace</div><h1 id="builderName">Projects</h1><p>Respond to invitations, collaborate with homeowners and keep every quotation tied to a design version.</p></div></header>
+    <div class="portal-grid">
+      <section class="portal-card is-wide"><h2>New invitations</h2><div class="portal-list" id="builderInvitations"></div></section>
+      <section class="portal-card is-wide"><h2>Active projects</h2><div class="portal-table-wrap"><table class="portal-table"><thead><tr><th>Project</th><th>Location</th><th>Design</th><th>Builder status</th><th>Quote</th><th></th></tr></thead><tbody id="builderProjects"></tbody></table></div></section>
+    </div>
+  </section>
+
+  <section id="builderProject" hidden>
+    <div class="portal-notice portal-hidden" id="projectNotice" role="status"></div>
+    <header class="portal-hero"><div><a href="index.html">← All projects</a><div class="eyebrow">Project <span id="builderProjectNumber"></span></div><h1 id="builderProjectTitle">Pool project</h1><p id="builderProjectAddress"></p></div><span class="portal-status" id="builderProjectStatus"></span></header>
+    <div class="portal-grid">
+      <section class="portal-card"><h2>Current design</h2><img class="portal-preview" id="builderProjectPreview" alt="Current 3D pool design"><p class="portal-muted" id="builderDesignVersion"></p></section>
+      <section class="portal-card"><h2>Specification</h2><dl class="portal-spec" id="builderSpecification"></dl></section>
+      <section class="portal-card"><h2>Site access images</h2><div class="portal-file-grid" id="builderAccessImages"></div></section>
+      <section class="portal-card"><h2>Client messages</h2><div class="portal-message-list" id="builderMessages"></div><form class="portal-message-form" id="builderMessageForm"><input name="message" maxlength="4000" placeholder="Write a message…" required><label class="attachment-button">Attach<input name="attachment" type="file" accept="image/jpeg,image/png,image/webp,application/pdf,text/plain" hidden></label><button class="btn btn-dark" type="submit">Send</button></form></section>
+      <section class="portal-card"><h2>Equipment requested</h2><ul class="portal-list" id="builderEquipment"></ul></section>
+      <section class="portal-card is-wide"><h2>Prepare quotation</h2><p class="portal-muted" id="quoteDesignNotice"></p><div class="portal-table-wrap"><table class="quote-table"><thead><tr><th>Description</th><th>Quantity</th><th>Unit</th><th>Unit price</th><th>Amount</th><th></th></tr></thead><tbody id="quoteLines"></tbody></table></div><div class="portal-actions"><button class="btn btn-light" id="addQuoteLine" type="button">Add line</button></div><div class="quote-total"><span>Total</span><strong id="quoteTotal">$0.00</strong></div><form class="portal-form" id="quoteForm"><div class="enquiry-grid enquiry-grid-two"><label>Valid until<input name="validUntil" type="date" required></label><label>GST rate (%)<input name="taxRate" type="number" min="0" max="100" step="0.01" value="10" required></label><label class="enquiry-span-two">Notes<textarea name="notes" rows="4" maxlength="4000" placeholder="Scope, exclusions, programme and payment terms"></textarea></label></div><div class="portal-actions"><button class="btn btn-dark" type="submit">Submit quotation</button></div></form></section>
+    </div>
+  </section>
+</main>
+<script type="module" src="../assets/js/builder-dashboard.js?v=20260909-builder-access-v3"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 790" role="img" aria-label="Pink Poolly 3D preview placeholder">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3bfd0"/><stop offset="1" stop-color="#df8faf"/></linearGradient><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M60 0H0V60" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="2"/></pattern></defs>
+<rect width="1200" height="790" fill="url(#g)"/><rect width="1200" height="790" fill="url(#grid)"/>
+<g fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round" opacity=".9"><rect x="250" y="180" width="700" height="410" rx="42"/><rect x="300" y="230" width="600" height="310" rx="26"/><path d="M300 440h600M760 230v310"/></g>
+<circle cx="835" cy="300" r="95" fill="none" stroke="#fff" stroke-width="7" opacity=".9"/>
+<text x="70" y="710" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="56" font-weight="600">Poolly 3D preview</text><text x="70" y="756" fill="#fff" fill-opacity=".82" font-family="Arial, Helvetica, sans-serif" font-size="26">Placeholder image — replace with the matching 3D render later</text>
+</svg>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/png" href="../assets/images/logo.png">
+  <title>3D Pool Designer | Poolly</title>
+  <meta name="description" content="Plan and visualise your swimming pool in interactive 3D, then create a quote-ready brief to share with selected pool builders.">
+  <meta name="referrer" content="strict-origin">
+  <link rel="stylesheet" href="../assets/css/site.css?v=20260902-designer-summary-v1">
+  <link rel="stylesheet" href="../assets/css/enquiry-portal.css?v=20260831-1">
+</head>
+<body class="pool-designer-page">
+<header class="site-header">
+  <div class="shell nav-wrap">
+    <a class="brand" href="../index.html"><img class="brand-logo" src="../assets/images/logo.png" alt="" width="32" height="32">Poolly</a>
+    <nav class="main-nav" id="mainNav"><a href="index.html">Designer</a><a href="../pool-designs/index.html">Designs</a><a href="../guides/index.html">Guides</a><a href="../professionals/index.html">For Professionals</a></nav>
+    <a class="btn btn-dark" href="index.html">Start Designing</a>
+    <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</header>
+<div class="designer-header-reveal" aria-hidden="true"></div>
+<main class="designer-workspace">
+  <aside class="designer-info" aria-label="Designer help">
+    <div class="designer-info-body">
+    <div class="eyebrow">Poolly designer</div>
+    <h1>Design your pool in 3D</h1>
+    <div class="designer-hints"><span>Drag to orbit</span><span>Scroll to zoom</span><span>Use the panel to edit</span></div>
+    <dl class="designer-summary" aria-live="polite">
+      <div data-summary-row="shape" hidden><dt>Shape</dt><dd data-summary="shape"></dd></div>
+      <div data-summary-row="size" hidden><dt>Size</dt><dd data-summary="size"></dd></div>
+      <div data-summary-row="depth" hidden><dt>Depth</dt><dd data-summary="depth"></dd></div>
+      <div data-summary-row="spa" hidden><dt>Spa</dt><dd data-summary="spa"></dd></div>
+      <div data-summary-row="spa-size" hidden><dt>Spa dimensions</dt><dd data-summary="spa-size"></dd></div>
+      <div data-summary-row="spa-height" hidden><dt>Spa above pool</dt><dd data-summary="spa-height"></dd></div>
+      <div data-summary-row="pool-height" hidden><dt>Out of ground</dt><dd data-summary="pool-height"></dd></div>
+      <div data-summary-row="raised-walls" hidden><dt>Raised wall heights</dt><dd data-summary="raised-walls"></dd></div>
+      <div data-summary-row="features" hidden><dt>Water &amp; features</dt><dd data-summary="features"></dd></div>
+      <div data-summary-row="tile-colour" hidden><dt>Tile colour</dt><dd data-summary="tile-colour"></dd></div>
+      <div data-summary-row="tile-size" hidden><dt>Tile size</dt><dd data-summary="tile-size"></dd></div>
+    </dl>
+    </div>
+    <button class="btn btn-dark designer-enquiry-button js-enquiry-open" id="submitEnquiryButton" type="button" disabled>Submit enquiry</button>
+  </aside>
+
+  <section class="designer-stage" aria-label="Interactive 3D pool designer">
+    <iframe id="pool-designer-frame" src="../pool-designer-app/frontend/index.html?embedded=1&amp;externalControls=0&amp;review=poolly-direct-controls-v2&amp;caustics=20260913-shadow-rim-v22" title="Poolly 3D workspace" loading="eager" allow="fullscreen"></iframe>
+    <div class="designer-loading" id="designerLoading" hidden><span></span><b>Loading 3D designer</b></div>
+    <div class="designer-error" id="designerError" hidden>The 3D designer could not be loaded. Refresh the page or <a href="../pool-designer-app/frontend/index.html" target="_blank" rel="noopener">open the designer in a new tab</a>.</div>
+  </section>
+
+  <aside class="designer-controls" id="designerControls" aria-label="Design controls">
+    <div class="designer-controls-head"><button class="panel-collapse" id="panelCollapse" type="button" aria-label="Collapse design controls">‹</button><div><strong>Design controls</strong><small id="controlStatus">Connecting…</small></div></div>
+    <div class="designer-control-tabs" role="tablist" aria-label="Design control categories">
+      <button class="designer-control-tab is-active" id="poolSpaTab" type="button" role="tab" aria-selected="true" aria-controls="poolSpaControls" data-control-tab="pool-spa">Pool &amp; Spa</button>
+      <button class="designer-control-tab" id="featuresFinishesTab" type="button" role="tab" aria-selected="false" aria-controls="featuresFinishesControls" data-control-tab="features-finishes">Features &amp; Finishes</button>
+    </div>
+    <div class="designer-accordion" id="designerAccordion">
+      <div class="designer-tab-panel is-active" id="poolSpaControls" role="tabpanel" aria-labelledby="poolSpaTab" data-control-panel="pool-spa">
+      <details id="poolControlsSection"><summary>Pool</summary><div class="control-content">
+        <label>Pool shape<select data-command="SET_POOL_SHAPE" data-key="shape"><option value="rectangular">Rectangle</option><option value="oval">Oval</option><option value="kidney">Kidney</option><option value="L">L-shape</option><option value="freeform">Freeform</option><option value="lap">Lap pool</option><option value="plunge">Plunge pool</option></select></label>
+        <button type="button" class="control-pill-toggle" data-command="SET_CAMERA_VIEW" data-key="view" data-toggle-pill aria-pressed="false"><span>Pool section view</span><b data-toggle-state aria-hidden="true"></b></button>
+        <button type="button" class="control-pill-toggle raised-pool-control" data-command="SET_POOL_RAISED" data-key="raised" data-toggle-pill aria-pressed="false"><span>Raised pool</span><b data-toggle-state aria-hidden="true"></b></button>
+        <div class="conditional-control" id="raisedPoolHeightControl" hidden>
+          <label><span class="control-label-row"><span>Height</span><input class="dimension-value-input" type="text" inputmode="decimal" min="0.1" max="1.5" step="0.1" value="0.7" data-number-for="poolHeight" aria-label="Raised pool height in metres"></span><input type="range" min="0.1" max="1.5" step="0.1" value="0.7" data-group="poolHeight" data-key="height"></label>
+        </div>
+        <div class="conditional-control selected-wall-control" id="selectedWallRaiseControl" hidden>
+          <label><span class="control-label-row"><span>Selected wall height</span><input class="dimension-value-input" type="text" inputmode="decimal" min="0" max="1.5" step="0.05" value="0" data-number-for="wallRaiseHeight" aria-label="Selected wall additional height in metres"></span><input type="range" min="0" max="1.5" step="0.05" value="0" data-group="wallRaise" data-key="extra"></label>
+          <p class="control-note" id="selectedWallRaiseNote">Drag the wall-height handle in the 3D view or use this slider.</p>
+        </div>
+        <label><span class="control-label-row"><span>Length</span><input class="dimension-value-input" type="text" inputmode="decimal" min="3" max="15" step="0.1" value="8" data-number-for="length" aria-label="Pool length in metres"></span><input type="range" min="3" max="15" step="0.1" value="8" data-group="poolDimensions" data-key="length"></label>
+        <label><span class="control-label-row"><span>Width</span><input class="dimension-value-input" type="text" inputmode="decimal" min="2" max="8" step="0.1" value="4" data-number-for="width" aria-label="Pool width in metres"></span><input type="range" min="2" max="8" step="0.1" value="4" data-group="poolDimensions" data-key="width"></label>
+        <label><span class="control-label-row"><span>Shallow depth</span><input class="dimension-value-input" type="text" inputmode="decimal" min="0.8" max="2" step="0.1" value="1.2" data-number-for="shallowDepth" aria-label="Shallow depth in metres"></span><input type="range" min="0.8" max="2" step="0.1" value="1.2" data-group="poolDimensions" data-key="shallowDepth"></label>
+        <label><span class="control-label-row"><span>Deep depth</span><input class="dimension-value-input" type="text" inputmode="decimal" min="1" max="3" step="0.1" value="1.8" data-number-for="deepDepth" aria-label="Deep depth in metres"></span><input type="range" min="1" max="3" step="0.1" value="1.8" data-group="poolDimensions" data-key="deepDepth"></label>
+        <div class="control-button-row"><button type="button" data-command="RESET_DIMENSIONS">Reset dimensions</button><button type="button" class="danger" data-command="RESET_DESIGN">Reset design</button></div>
+      </div></details>
+
+      <details id="spaControlsSection"><summary>Spa</summary><div class="control-content">
+        <button type="button" class="control-pill-toggle" data-command="UPDATE_SPA" data-key="enabled" data-toggle-pill aria-pressed="false"><span>Spa enabled</span><b data-toggle-state aria-hidden="true"></b></button>
+        <label>Spa shape<select data-command="UPDATE_SPA" data-key="shape"><option value="square">Rectangular</option><option value="circular">Circular</option></select></label>
+        <label><span class="control-label-row"><span>Width / diameter</span><input class="dimension-value-input" type="text" inputmode="decimal" min="1" max="5" step="0.1" value="2" data-number-for="spaWidth" aria-label="Spa width or diameter in metres"></span><input type="range" min="1" max="5" step="0.1" value="2" data-group="spa" data-key="width"></label>
+        <label><span class="control-label-row"><span>Length</span><input class="dimension-value-input" type="text" inputmode="decimal" min="1" max="5" step="0.1" value="2" data-number-for="spaLength" aria-label="Spa length in metres"></span><input type="range" min="1" max="5" step="0.1" value="2" data-group="spa" data-key="length"></label>
+        <label><span class="control-label-row"><span>Height above pool</span><input class="dimension-value-input" type="text" inputmode="decimal" min="-0.2" max="1.2" step="0.1" value="0" data-number-for="spaHeight" aria-label="Spa height above pool in metres"></span><input type="range" min="-0.2" max="1.2" step="0.1" value="0" data-group="spa" data-key="height"></label>
+        <p class="control-note">Position, snapping and channel geometry remain editable directly in the 3D scene.</p>
+      </div></details>
+
+      <details id="featuresControlsSection"><summary>Features</summary><div class="control-content">
+        <div class="feature-option-grid" role="group" aria-label="Pool feature options">
+          <button type="button" class="feature-option" data-feature-option="bar-stools" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h10M8.5 5v5.5M15.5 5v5.5M7.5 11h9M9 11v8M15 11v8M7 19h10"/></svg><span>Bar stools</span>
+          </button>
+          <button type="button" class="feature-option" data-feature-option="laminar-jets" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18c2-7 5-11 9-11 3.5 0 5.5 2.4 7 6"/><path d="M4 18h4M17 13h3"/><circle cx="13" cy="7" r="1.2"/></svg><span>Laminar jets</span>
+          </button>
+          <button type="button" class="feature-option" data-feature-option="bubblers" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="2.2"/><circle cx="13" cy="10" r="1.7"/><circle cx="17" cy="5.5" r="1.2"/><path d="M4 20h16"/></svg><span>Bubblers</span>
+          </button>
+          <button type="button" class="feature-option" data-feature-option="infinity-edge" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h14v7H3z"/><path d="M17 8v10M20 10v8M3 18h18"/><path d="M6 11c2 1.2 4 1.2 6 0s4-1.2 5 0"/></svg><span>Infinity edge</span>
+          </button>
+          <button type="button" class="feature-option" data-feature-option="spout-water-features" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10v4H8v4"/><path d="M8 15c0 2 1.4 3.5 3.5 3.5S15 17 15 15"/><path d="M18 7v11M16 18h4"/></svg><span>Spout water features</span>
+          </button>
+          <button type="button" class="feature-option" data-feature-option="blade-water-features" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v4H4z"/><path d="M7 10v7M10 10v8M13 10v8M16 10v7"/><path d="M5 19h14"/></svg><span>Blade water features</span>
+          </button>
+          <button type="button" class="feature-option" data-feature-option="acrylic-window" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1"/><path d="M7 8h10v8H7zM12 8v8"/></svg><span>Acrylic window</span></button><button type="button" class="feature-option" data-feature-option="curved-wall" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18V9a5 5 0 0 1 5-5h9"/><path d="M4 18h5M18 4v5"/></svg><span>Curved wall</span>
+          </button>
+        </div>
+        <p class="control-note">Select one or more features to include in the design.</p>
+      </div></details>
+
+      </div>
+      <div class="designer-tab-panel" id="featuresFinishesControls" role="tabpanel" aria-labelledby="featuresFinishesTab" data-control-panel="features-finishes" hidden>
+      <details id="stepsControlsSection"><summary>Steps</summary><div class="control-content">
+        <label>Step style<select data-command="UPDATE_STEPS" data-key="style"><option value="rectangle">Straight</option><option value="diagonal">Corner</option><option value="circular">Circular corner</option><option value="radius">Radius corner</option></select></label>
+        <label>Wall<select data-command="UPDATE_STEPS" data-key="wall"><option value="west">West / shallow end</option><option value="east">East / deep end</option><option value="north">North / top</option><option value="south">South / bottom</option></select></label>
+        <label>Position<select data-command="UPDATE_STEPS" data-key="position"><option value="left">Left</option><option value="center">Centre</option><option value="right">Right</option></select></label>
+        <label><span class="control-label-row"><span>Number of steps</span><input class="dimension-value-input" type="number" min="1" max="8" step="1" value="3" data-number-for="stepCount" aria-label="Number of steps"></span><input type="range" min="1" max="8" step="1" value="3" data-group="steps" data-key="count"></label>
+        <label><span class="control-label-row"><span>Step depth</span><input class="dimension-value-input" type="text" inputmode="decimal" min="0.25" max="0.5" step="0.05" value="0.25" data-number-for="stepDepth" aria-label="Step depth in metres"></span><input type="range" min="0.25" max="0.5" step="0.05" value="0.25" data-group="steps" data-key="depth"></label>
+        <label><span class="control-label-row"><span>Step width</span><input class="dimension-value-input" type="text" inputmode="decimal" min="0.3" max="5" step="0.05" value="0.9" data-number-for="stepWidth" aria-label="Step width in metres"></span><input type="range" min="0.3" max="5" step="0.05" value="0.9" data-group="steps" data-key="width"></label>
+      </div></details>
+
+      <details id="benchesControlsSection"><summary>Benches</summary><div class="control-content">
+        <label>Step layout<select data-command="UPDATE_BENCH" data-key="mode"><option value="bench">Bench seat</option><option value="stepsOnly">Steps only</option></select></label>
+        <p class="control-note">Bench seating is integrated with the current step system. Select a step in the model for advanced push/pull editing.</p>
+      </div></details>
+
+      <details id="interiorFinishControlsSection"><summary>Interior Finish</summary><div class="control-content">
+        <div class="tile-size-control">
+          <span>Tile size</span>
+          <div class="tile-size-picker" role="group" aria-label="Interior tile size">
+            <button type="button" class="is-selected" data-command="SET_TILE_SIZE" data-value="48" aria-pressed="true">48 mm</button>
+            <button type="button" data-command="SET_TILE_SIZE" data-value="23" aria-pressed="false">23 mm</button>
+          </div>
+        </div>
+        <p class="control-note">Tile face size. Each option includes a 2 mm grout line.</p>
+        <div class="swatch-grid tile-swatch-grid" data-tile-preview-size="48">
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="blue"><i style="background-image:url(../assets/images/pool-tiles/blue.webp)"></i>Blue</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="white"><i style="background-image:url(../assets/images/pool-tiles/white.webp)"></i>White</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Antique Opal"><i style="background-image:url(../assets/images/pool-tiles/antique-opal.webp)"></i>Antique Opal</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Aqua Glass"><i style="background-image:url(../assets/images/pool-tiles/aqua-glass.webp)"></i>Aqua Glass</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Arctic Blue"><i style="background-image:url(../assets/images/pool-tiles/arctic-blue.webp)"></i>Arctic Blue</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Cobalt Blue"><i style="background-image:url(../assets/images/pool-tiles/cobalt-blue.webp)"></i>Cobalt Blue</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Deep Ocean"><i style="background-image:url(../assets/images/pool-tiles/deep-ocean.webp)"></i>Deep Ocean</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Lagoon"><i style="background-image:url(../assets/images/pool-tiles/lagoon.webp)"></i>Lagoon</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Turquoise"><i style="background-image:url(../assets/images/pool-tiles/turquoise.webp)"></i>Turquoise</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Emerald"><i style="background-image:url(../assets/images/pool-tiles/emerald.webp)"></i>Emerald</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Seafoam"><i style="background-image:url(../assets/images/pool-tiles/seafoam.webp)"></i>Seafoam</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Pearl"><i style="background-image:url(../assets/images/pool-tiles/pearl.webp)"></i>Pearl</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Silver Grey"><i style="background-image:url(../assets/images/pool-tiles/silver-grey.webp)"></i>Silver Grey</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Graphite"><i style="background-image:url(../assets/images/pool-tiles/graphite.webp)"></i>Graphite</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Midnight"><i style="background-image:url(../assets/images/pool-tiles/midnight.webp)"></i>Midnight</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Sandstone"><i style="background-image:url(../assets/images/pool-tiles/sandstone.webp)"></i>Sandstone</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Travertine"><i style="background-image:url(../assets/images/pool-tiles/travertine.webp)"></i>Travertine</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Jade"><i style="background-image:url(../assets/images/pool-tiles/jade.webp)"></i>Jade</button>
+        <button type="button" data-command="SET_INTERIOR_TILE" data-value="Opal Blue"><i style="background-image:url(../assets/images/pool-tiles/opal-blue.webp)"></i>Opal Blue</button>
+      </div></div></details>
+
+      </div>
+    </div>
+  </aside>
+
+  <nav class="designer-mobile-toolbar" aria-label="Mobile design tools"><button type="button" id="openMobileControls">Design controls</button><button type="button" data-command="RESET_CAMERA">Reset view</button><button type="button" class="js-enquiry-open" id="submitEnquiryMobile" disabled>Enquire</button></nav>
+  <div class="designer-sheet-backdrop" id="sheetBackdrop" hidden></div>
+</main>
+
+<dialog class="enquiry-dialog" id="enquiryDialog" aria-labelledby="enquiryTitle">
+  <form class="enquiry-shell" id="enquiryForm" novalidate>
+    <header class="enquiry-head">
+      <div><div class="eyebrow">Project enquiry</div><h2 id="enquiryTitle">Turn your design into a quote-ready pool brief</h2></div>
+      <button class="enquiry-close" id="closeEnquiry" type="button" aria-label="Close enquiry">×</button>
+    </header>
+    <ol class="enquiry-steps" aria-label="Enquiry progress">
+      <li class="is-active" data-step-indicator="1"><b>1</b><span>Details &amp; builders</span></li>
+      <li data-step-indicator="2"><b>2</b><span>Equipment</span></li>
+      <li data-step-indicator="3"><b>3</b><span>Review</span></li>
+    </ol>
+    <div class="enquiry-alert" id="enquiryAlert" role="status" hidden>
+      <p class="enquiry-alert-message" id="enquiryAlertMessage"></p>
+      <div class="existing-enquiry-actions" id="existingEnquiryActions" hidden>
+        <a class="btn btn-dark" id="openExistingEnquiry" href="../project/index.html">Open existing enquiry</a>
+        <button class="btn btn-light" id="emailExistingEnquiryLink" type="button">Email me a secure link</button>
+      </div>
+    </div>
+
+    <section class="enquiry-panel is-active" data-enquiry-step="1">
+      <div class="enquiry-section-heading"><h3>Your project details</h3><p>We verify your email before saving or sharing your design.</p></div>
+      <div class="enquiry-grid enquiry-grid-two">
+        <label>First name<input name="firstName" autocomplete="given-name" required maxlength="80"></label>
+        <label>Last name<input name="lastName" autocomplete="family-name" required maxlength="80"></label>
+        <label>Email<input name="email" type="email" autocomplete="email" required maxlength="254"></label>
+        <label>Phone<input name="phone" type="tel" autocomplete="tel" required maxlength="40"></label>
+        <label class="enquiry-span-two">Site address<input name="address" autocomplete="off" required maxlength="240" placeholder="Start typing an Australian street address"><small>Choose a suggested address for the most accurate nearby-builder results, or enter the address manually.</small></label>
+        <div class="enquiry-span-two location-actions"><button class="btn btn-light" id="useCurrentLocation" type="button">Use my current location</button><small id="locationHelp">Your location is used only to rank the nearest registered builders.</small></div>
+        <label>Suburb<input name="suburb" autocomplete="address-level2" required maxlength="100"></label>
+        <label>State<select name="state" autocomplete="address-level1" required><option value="">Select</option><option>NSW</option><option>VIC</option><option>QLD</option><option>SA</option><option>WA</option><option>TAS</option><option>ACT</option><option>NT</option></select></label>
+        <label>Postcode<input name="postcode" inputmode="numeric" autocomplete="postal-code" pattern="[0-9]{4}" required maxlength="4"></label>
+        <label>Target start<select name="targetStart" required><option value="">Select</option><option value="0-3 months">0–3 months</option><option value="3-6 months">3–6 months</option><option value="6-12 months">6–12 months</option><option value="12+ months">12+ months</option><option value="Planning only">Planning only</option></select></label>
+        <label class="enquiry-span-two">Anything builders should know about access or the site?<textarea name="notes" rows="3" maxlength="2000" placeholder="Access width, slope, approvals, existing structures or priorities"></textarea></label>
+        <label class="enquiry-span-two access-image-upload">Site access photos<input name="accessImages" type="file" accept="image/jpeg,image/png,image/webp" multiple><small>Upload up to eight JPG, PNG or WebP images showing access, existing structures and site conditions. Maximum 25 MB per image.</small></label>
+        <div class="enquiry-span-two access-image-list" id="accessImageList" aria-live="polite"></div>
+      </div>
+      <div class="email-verification" id="emailVerification">
+        <div><strong>Email verification</strong><p id="verificationHelp">Enter your email above, then request a six-digit code.</p></div>
+        <button class="btn btn-light" id="sendVerification" type="button">Send code</button>
+        <label id="verificationCodeField" hidden>Verification code<input name="verificationCode" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6"></label>
+        <button class="btn btn-dark" id="verifyEmail" type="button" hidden>Verify email</button>
+      </div>
+      <div class="builder-picker">
+        <div class="enquiry-section-heading"><h3>Select up to three nearby builders</h3><p>Builders are ordered by distance from your selected address. Each builder can accept or decline your enquiry.</p></div>
+        <div class="builder-results" id="builderResults" aria-live="polite"><p class="empty-state">Enter your suburb and four-digit postcode, or use your current location, to find nearby builders.</p></div>
+      </div>
+    </section>
+
+    <section class="enquiry-panel" data-enquiry-step="2" hidden>
+      <div class="enquiry-section-heading"><h3>Equipment and inclusions</h3><p>Standard items are included in every brief. Choose the options you want builders to price.</p></div>
+      <div class="equipment-group"><h4>Standard inclusions</h4><div class="equipment-cards" id="standardEquipment"></div></div>
+      <fieldset class="equipment-group"><legend>Optional equipment</legend><div class="equipment-cards" id="optionalEquipment"></div></fieldset>
+      <div class="equipment-group"><h4>Required by your design</h4><div class="equipment-cards" id="designEquipment"></div></div>
+    </section>
+
+    <section class="enquiry-panel" data-enquiry-step="3" hidden>
+      <div class="enquiry-section-heading"><h3>Review your builder brief</h3><p>Your current 3D configuration is versioned and attached to every quotation.</p></div>
+      <div class="review-layout">
+        <figure class="design-preview"><img id="enquiryPreview" alt="Current 3D pool design preview"><figcaption>Current 3D design</figcaption></figure>
+        <div><h4>Pool specification</h4><dl class="review-specification" id="reviewSpecification"></dl></div>
+      </div>
+      <div class="review-columns"><div><h4>Selected builders</h4><ul id="reviewBuilders"></ul></div><div><h4>Equipment</h4><ul id="reviewEquipment"></ul></div><div><h4>Site access photos</h4><ul id="reviewAccessImages"></ul></div></div>
+      <label class="consent-check"><input name="consent" type="checkbox" required><span>I confirm the project details are accurate and agree that my contact details and design may be shared with the selected builders for quotation.</span></label>
+    </section>
+
+    <footer class="enquiry-actions">
+      <button class="btn btn-light" id="enquiryBack" type="button" hidden>Back</button>
+      <span class="enquiry-save-state" id="enquirySaveState">Not submitted</span>
+      <button class="btn btn-dark" id="enquiryNext" type="button">Continue</button>
+      <button class="btn btn-dark" id="enquirySubmit" type="submit" hidden>Submit enquiry</button>
+    </footer>
+  </form>
+</dialog>
+
+<section class="faq-section"><div class="shell content-narrow"><div class="eyebrow">FAQ</div><h2>Frequently asked</h2><div class="faq-list">
+<details class="faq-item"><summary>Do I need to install any software?<span>+</span></summary><p>No. Poolly runs in a modern web browser with no software to install.</p></details>
+<details class="faq-item"><summary>Can I save my design and come back to it?<span>+</span></summary><p>Your project workflow can save and share the design as you move toward builder quotation.</p></details>
+<details class="faq-item"><summary>Does the designer work on mobile?<span>+</span></summary><p>Yes. Poolly works on mobile, although a larger screen gives you more room for detailed 3D editing.</p></details>
+<details class="faq-item"><summary>Can my pool builder use my design?<span>+</span></summary><p>Yes. Your design can be shared as a clear visual and quote-ready project brief for professional review.</p></details>
+</div></div></section>
+
+<section class="learn-section"><div class="shell content-narrow"><div class="eyebrow">Related guides</div><h2>Learn more</h2><div class="pills">
+<a class="pill" href="../guides/pool-shapes/index.html">Pool Shapes</a><a class="pill" href="../guides/pool-sizes/index.html">Pool Sizes</a><a class="pill" href="../guides/pool-depths/index.html">Pool Depths</a><a class="pill" href="../guides/pool-tiles/index.html">Pool Tiles</a>
+</div></div></section>
+
+<footer class="site-footer"><div class="shell"><div class="footer-grid">
+<div><a class="brand" href="../index.html"><img class="brand-logo" src="../assets/images/logo.png" alt="" width="32" height="32">Poolly</a><p class="footer-copy">Plan it. See it. Build it. Poolly helps you explore, visualise and share your pool design before construction begins.</p></div>
+<div class="footer-col"><div class="footer-title">Platform</div><a href="index.html">Poolly</a><a href="../pool-designs/index.html">Design Library</a><a href="../guides/index.html">Guides</a><a href="../professionals/index.html">For Professionals</a></div>
+<div class="footer-col"><div class="footer-title">Guides</div><a href="../guides/pool-shapes/index.html">Pool Shapes</a><a href="../guides/pool-costs/index.html">Pool Costs</a><a href="../guides/pool-planning/index.html">Pool Planning</a><a href="../guides/pool-tiles/index.html">Pool Tiles</a></div>
+<div class="footer-col"><div class="footer-title">Studio</div><p class="footer-copy">Designed in Australia<br>Available nationwide.</p></div>
+</div><div class="footer-bottom"><span>© 2026 Poolly. All rights reserved.</span><span><a href="../privacy-policy/index.html">Privacy</a>&nbsp;&nbsp;&nbsp; <a href="../terms-and-conditions/index.html">Terms</a>&nbsp;&nbsp;&nbsp; <a href="../about/index.html">About</a></span></div></div></footer>
+
+<script src="../assets/js/site.js"></script>
+<script src="../assets/js/designer-page.js?v=20260903-revision-v2"></script>
+<script type="module" src="../assets/js/enquiry-flow.js?v=20260831-1"></script>
+</body>
+</html>
